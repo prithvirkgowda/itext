@@ -1,9 +1,11 @@
-package itext.sample;
+package itext;
+
+import java.io.IOException;
 
 public class FillHilton {
 
 	@SuppressWarnings("unused")
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		 FirstPdf first = new FirstPdf();
 		 FirstPdf.firstpdf();
 		 Page5 page5 = new Page5();
@@ -16,6 +18,11 @@ public class FillHilton {
 		 Page32.page32();
 		 Page40 page40 = new Page40();
 		 Page40.page40();
+		 FileUpload fileupload = new FileUpload();
+		 FileUpload.fileupload();
+		 FileDownload filedownload = new FileDownload();
+		 FileDownload.filedownload();
+		 
 		 
 	}
 

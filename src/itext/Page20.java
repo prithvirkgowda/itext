@@ -1,4 +1,4 @@
-package itext.sample;
+package itext;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,9 +15,18 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 
 public class Page20 {
-private static final String Result1 = "D:/Eclipse Java/Page20.pdf";
+private static final String Result = "D:/Eclipse Java/fill4.pdf";
+static PdfReader reader;
+static PdfStamper stamper;
 
 public static void page20(){
+	try{
+		reader = new PdfReader("D:/Eclipse Java/fill3.pdf");
+		stamper = new PdfStamper(reader, new FileOutputStream(Result));
+	} catch (IOException | DocumentException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}	
 	try {
 
         Class.forName("com.mysql.jdbc.Driver");
@@ -50,14 +59,14 @@ public static void page20(){
     try {
         Statement stm = null;
         stm = connection.createStatement();//creating a instance for the database query
-        PdfReader reader;
+        /*PdfReader reader;
         PdfStamper stamper;
-        ResultSet rs = null;
+        */ResultSet rs = null;
         rs = stm.executeQuery("SELECT * FROM Page20 ORDER BY Page20ID DESC LIMIT 1");
         while ( rs.next() ) {
-        	 reader = new PdfReader("D:/Eclipse Java/Page9.pdf");//reading the existing pdf
+        	 /*reader = new PdfReader("D:/Eclipse Java/Page9.pdf");//reading the existing pdf
         	 stamper = new PdfStamper(reader, new FileOutputStream(Result1));
-             AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
+             */AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
              String dob,age,weight,height,occupation,pname,tdate,fam_doc,referred,operations,medical,allergies,meds,illnesses,relatives;
              int domhand,hbp,dia,bleeding,asth,pneu,major,heart,phlebitis,ulcers,kidney,hep,liver;
              occupation = rs.getString("Occupation");
@@ -107,7 +116,6 @@ public static void page20(){
                 
                 
              	                 	/*Set<String> fldNames = form.getFields().keySet();
-
              	for (String fldName : fldNames) {
              	  System.out.println( fldName + ": " + form.getField( fldName ) );
              	}
@@ -220,8 +228,9 @@ public static void page20(){
               	*/
              	form.setGenerateAppearances(true);
           	   // stamper.setFormFlattening(true);
-             
+             	
                 stamper.close();
+                reader.close();
                
         } 
         connection.close();

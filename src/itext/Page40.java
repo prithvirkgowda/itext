@@ -1,4 +1,4 @@
-package itext.sample;
+package itext;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,9 +16,20 @@ import com.itextpdf.text.pdf.PdfStamper;
 
 public class Page40 {
 
-	private static final String Result1 = "D:/Eclipse Java/Page40.pdf";
+	private static final String Result = "D:/Eclipse Java/fill6.pdf";
+	static PdfReader reader;
+	static PdfStamper stamper;
+	
 
 	public static void page40() {
+		try{
+			reader = new PdfReader("D:/Eclipse Java/fill4.pdf");
+			stamper = new PdfStamper(reader, new FileOutputStream(Result));
+		} catch (IOException | DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		
 		try {
 
             Class.forName("com.mysql.jdbc.Driver");
@@ -55,9 +66,9 @@ public class Page40 {
 	            stm = connection.createStatement();//creating a instance for the database query
 	            ResultSet rs = stm.executeQuery("SELECT * FROM Page40 ORDER BY Page40ID DESC LIMIT 1");
 	            while ( rs.next() ) {
-	            	PdfReader reader = new PdfReader("D:/Eclipse Java/Page32.pdf");//reading the existing pdf
+	            	/*PdfReader reader = new PdfReader("D:/Eclipse Java/Page32.pdf");//reading the existing pdf
 	            	PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(Result1));
-	                 AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
+	                */ AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
 	                 int fever,weight,excessive,night,infections,injuries,glaucoma,cataracts,wearh;
 	                 int hearing,ear,eari,ringing,balance,nosebleeds,nasalc,inability,sinusp,sinush;
 	                 int sore,mouth,chest,highblood,irregular,heart,highc,swelling,leg;

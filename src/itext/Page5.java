@@ -1,4 +1,4 @@
-package itext.sample;
+package itext;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,12 +14,20 @@ import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 
+   
 public class Page5 {
 
-	 private static final String Result1 = "D:/Eclipse Java/Page5.pdf";
-
+	 private static final String Result = "D:/Eclipse Java/fill2.pdf";
+	 static PdfReader reader;
+	 static PdfStamper stamper;
 	public static void page5()  {
-		
+		try {
+			reader = new PdfReader("D:/Eclipse Java/fill1.pdf");
+			stamper = new PdfStamper(reader, new FileOutputStream(Result));
+		} catch (IOException | DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 		try {
 
             Class.forName("com.mysql.jdbc.Driver");
@@ -54,13 +62,14 @@ public class Page5 {
 		 try {
 	            Statement stm = null;
 	            stm = connection.createStatement();//creating a instance for the database query
-	            PdfReader reader;
+	            /*PdfReader reader;
 	            PdfStamper stamper;
-	            ResultSet rs = null;
+	            */ResultSet rs = null;
 	            rs = stm.executeQuery("SELECT * FROM Page5 ORDER BY Page5ID DESC LIMIT 1");
 	            while ( rs.next() ) {
-	            	 reader = new PdfReader("D:/Eclipse Java/fill7.pdf");//reading the existing pdf
-	            	 stamper = new PdfStamper(reader, new FileOutputStream(Result1));
+	            	 /*reader = new PdfReader("D:/Eclipse Java/HiltonForms2014_r.pdf");//reading the existing pdf
+	            	 stamper = new PdfStamper(reader, new FileOutputStream(Result));
+	            	 */
 	                 AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
 	                 String  rec_drugs,complaint,gradually,resolved,better, worse, howlong= null;
 	                 String if_yes_desc,years,packs,alch_how_much,bedrest,medi,pt,traction,tens,injections,otherdocs,pneck;
@@ -165,7 +174,8 @@ public class Page5 {
 	                 	
 	                    /*String [] states = stamper.getAcroFields().getAppearanceStates("rightarmpain"); 
                  		System.out.println(Arrays.toString(states)); 
-                 		*/form.setGenerateAppearances(true);
+                 		*/
+	                    form.setGenerateAppearances(true);
                  		
 	                 	stamper.close();
 	                   

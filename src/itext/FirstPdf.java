@@ -1,4 +1,5 @@
-package itext.sample;
+package itext;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -10,7 +11,8 @@ import java.util.Arrays;
 //import java.util.Iterator;
 
 
-import java.util.Set;
+//import java.util.Set;
+
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
@@ -26,22 +28,32 @@ import com.itextpdf.text.pdf.PdfStamper;
 public class FirstPdf extends FillHilton{
 
     private static final String Result = "D:/Eclipse Java/fill1.pdf";
-	private static final String Result1 = "D:/Eclipse Java/fill2.pdf";
+	/*private static final String Result1 = "D:/Eclipse Java/fill1.pdf";
 	private static final String Result2 = "D:/Eclipse Java/fill3.pdf";
 	private static final String Result3 = "D:/Eclipse Java/fill4.pdf";
 	private static final String Result4 = "D:/Eclipse Java/fill5.pdf";
 	private static final String Result5 = "D:/Eclipse Java/fill6.pdf";
 	private static final String Result6 = "D:/Eclipse Java/fill7.pdf";
-	static String fname ,lname,mi= null;
+	*/static String fname ,lname,mi= null;
 	static String age ;
 	static String dob,emp,occupation;
 	static String ssn ,empadd, empcity, empstate,empzip,empphone;
 	static String mar,city,add,state,zip,email,resphone;
     static int sex,marital,dom;
     
+    static PdfReader reader;
+	static PdfStamper stamper;
+    
     
 
-    public static void firstpdf() {
+    public static void firstpdf() throws IOException {
+    	try {
+			reader = new PdfReader("D:/Eclipse Java/HiltonForms2014_r.pdf");
+			stamper = new PdfStamper(reader, new FileOutputStream(Result));
+		} catch (IOException | DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         new FirstPdf();
 		FirstPdf.Sec1();
         FirstPdf.Sec2();
@@ -95,9 +107,9 @@ public class FirstPdf extends FillHilton{
 	            String tdate = null;
 	            String doctoday;
 	            while ( rs.next() ) {
-	            	PdfReader reader = new PdfReader("D:/Eclipse Java/HiltonForms2014_r.pdf");//reading the existing pdf
+	            	/*PdfReader reader = new PdfReader("D:/Eclipse Java/HiltonForms2014_r.pdf");//reading the existing pdf
 	            	PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(Result));
-	                 AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
+	                */ AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
 	                 age = rs.getString("Age");
 	                 fname = rs.getString("FirstName");
 	                 lname = rs.getString("LastName");
@@ -178,7 +190,6 @@ public class FirstPdf extends FillHilton{
 	                 		else
 	                 			form.setField("Dominant Hand_ledger","left");
 	                 		/*Set<String> fldNames = form.getFields().keySet();
-
  							for (String fldName : fldNames) {
  	  						System.out.println( fldName + ": " + form.getField( fldName ) );}
 */
@@ -192,7 +203,7 @@ public class FirstPdf extends FillHilton{
 	                 	System.out.println(dom);
 	                 	form.setGenerateAppearances(true);
 	                 	
-	                     stamper.close();
+	                   //  stamper.close();
 	                   
 	            }
 	            
@@ -249,15 +260,15 @@ public class FirstPdf extends FillHilton{
 		  try {
 	            Statement stm = null;
 	            stm = connection.createStatement();//creating a instance for the database query
-	            PdfReader reader;
+	           /* PdfReader reader;
 	            PdfStamper stamper;
-	            ResultSet rs = null;
+	           */ ResultSet rs = null;
 	            rs = stm.executeQuery("SELECT * FROM Sec2 ORDER BY Sec2ID DESC LIMIT 1");
 	            while ( rs.next() ) {
-	            	 reader = new PdfReader("D:/Eclipse Java/fill1.pdf");//reading the existing pdf
-	            	 
-	                 stamper = new PdfStamper(reader, new FileOutputStream(Result1));
-	                 
+	            	/* reader = new PdfReader("D:/Eclipse Java/HiltonForms2014_r.pdf");//reading the existing pdf
+	            	
+	                 stamper = new PdfStamper(reader, new FileOutputStream(Result));
+	                */ 
 	                 AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
 	                 String fname = null;
 	                 String lname = null;
@@ -308,7 +319,7 @@ public class FirstPdf extends FillHilton{
 	                 	
 	           
 	                 	
-	                    stamper.close();
+	                    //stamper.close();
 	                   
 	            } 
 	            
@@ -362,15 +373,15 @@ public class FirstPdf extends FillHilton{
 		  try {
 	            Statement stm = null;
 	            stm = connection.createStatement();//creating a instance for the database query
-	            PdfReader reader;
+	            /*PdfReader reader;
 	            PdfStamper stamper;
-	            ResultSet rs = null;
+	            */ResultSet rs = null;
 	            rs = stm.executeQuery("SELECT * FROM Sec3 ORDER BY Sec3ID DESC LIMIT 1");
 	            while ( rs.next() ) {
-	            	 reader = new PdfReader("D:/Eclipse Java/fill2.pdf");//reading the existing pdf
+	            	/* reader = new PdfReader("D:/Eclipse Java/fill2.pdf");//reading the existing pdf
 	            	 
 	                 stamper = new PdfStamper(reader, new FileOutputStream(Result2));
-	                 
+	                */ 
 	                 AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
 	                 String rpname,rpadd ,rpcity ,rpstate ,rpzip, rpphone;
 	                 String ppname, ppadd ,ppcity ,ppstate ,ppzip ,ppphone;
@@ -416,7 +427,7 @@ public class FirstPdf extends FillHilton{
 	                 	form.setField("PHONE_5_ledger",tpphone);
 	                 	//stamper.setFormFlattening(true);
 	                 	form.setGenerateAppearances(true);
-	                     stamper.close();
+	                    // stamper.close();
 	            } 
 	            
 	            connection.close();
@@ -470,15 +481,16 @@ public class FirstPdf extends FillHilton{
 		  try {
 	            Statement stm = null;
 	            stm = connection.createStatement();//creating a instance for the database query
-	            PdfReader reader;
+	            /*PdfReader reader;
 	            PdfStamper stamper;
-	            ResultSet rs = null;
+	            */ResultSet rs = null;
 	            rs = stm.executeQuery("SELECT * FROM Sec4 ORDER BY Sec4ID DESC LIMIT 1");
+	            System.out.println("rs=" + rs.toString());
 	            while ( rs.next() ) {
-	            	 reader = new PdfReader("D:/Eclipse Java/fill3.pdf");//reading the existing pdf
+	            	/* reader = new PdfReader("D:/Eclipse Java/fill3.pdf");//reading the existing pdf
 	            	 
-	                 stamper = new PdfStamper(reader, new FileOutputStream(Result3));
-	                 
+	                 stamper = new PdfStamper(reader, new FileOutputStream(Result3));// writing a new pdf
+	                */ 
 	                 AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
 	                 String picompany,pipolicynum,pigroup,piinsured,pidob,pinetwork;
 	                 String sicompany,sipolicynum,sigroup,siinsured,sidob,sinetwork;
@@ -494,7 +506,7 @@ public class FirstPdf extends FillHilton{
 	                 sidob = rs.getString("SIInsuredsDOB");
 	                 pinetwork = rs.getString("PINetwork");
 	                 sinetwork = rs.getString("SINetwork");
-	                 //System.out.println("Test:"+ Arrays.toString(form.getFields().entrySet().toArray()));
+	                 System.out.println("Test:"+ Arrays.toString(form.getFields().entrySet().toArray()));
 	                 if (rs != null)
 	              
 	                	form.setField("INSURANCE COMPANY_ledger",picompany);
@@ -507,11 +519,12 @@ public class FirstPdf extends FillHilton{
 	                	form.setField("INSUREDS NAME_2_ledger",siinsured);
 	                	form.setField("NETWORK_ledger",pinetwork);
 	                	form.setField("NETWORK_2_ledger",sinetwork);
-	                 	
-	                 		                 	form.setGenerateAppearances(true);
-	                     stamper.close();
+	                 	System.out.println("fill4 values");
+	                 	form.setGenerateAppearances(true);
+	                //     stamper.close();
 	                   
 	            } 
+	            System.out.println("printing fill4");
 	            
 	            connection.close();
 
@@ -563,14 +576,14 @@ public class FirstPdf extends FillHilton{
 		  try {
 	            Statement stm = null;
 	            stm = connection.createStatement();//creating a instance for the database query
-	            PdfReader reader;
+	            /*PdfReader reader;
 	            PdfStamper stamper;
-	            ResultSet rs = null;
+	            */ResultSet rs = null;
 	            rs = stm.executeQuery("SELECT * FROM Sec5 ORDER BY Sec5ID DESC LIMIT 1");
 	            while ( rs.next() ) {
-	            	 reader = new PdfReader("D:/Eclipse Java/fill4.pdf");//reading the existing pdf
+	            /*	 reader = new PdfReader("D:/Eclipse Java/fill4.pdf");//reading the existing pdf
 	            	 stamper = new PdfStamper(reader, new FileOutputStream(Result4));
-	                 AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
+	            */     AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
 	                 String ecname,ecadd,eccity,ecstate,eczip,ecphone,relationship;
 	                 int prefcon;
 	                 ecname= rs.getString("ECName");
@@ -607,7 +620,7 @@ public class FirstPdf extends FillHilton{
 		                
 		                 
 	                		                 	form.setGenerateAppearances(true);
-	                     stamper.close();
+	            //         stamper.close();
 	                   
 	            } 
 	            
@@ -660,14 +673,14 @@ public class FirstPdf extends FillHilton{
 		  try {
 	            Statement stm = null;
 	            stm = connection.createStatement();//creating a instance for the database query
-	            PdfReader reader;
+	            /*PdfReader reader;
 	            PdfStamper stamper;
-	            ResultSet rs = null;
+	            */ResultSet rs = null;
 	            rs = stm.executeQuery("SELECT * FROM Sec6 ORDER BY Sec6ID DESC LIMIT 1");
 	            while ( rs.next() ) {
-	            	 reader = new PdfReader("D:/Eclipse Java/fill5.pdf");//reading the existing pdf
+	            /*	 reader = new PdfReader("D:/Eclipse Java/fill5.pdf");//reading the existing pdf
 	            	 stamper = new PdfStamper(reader, new FileOutputStream(Result5));
-	                 AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
+	            */     AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
 	                 String emp,doi,empname,empaddress,empcity,empstate,empzip,cclaim;
 	                 String wcic,wcnet,wcaddress,wccity,wcstate,wczip,adjname,adjphone;
 	                 int cfilled;
@@ -714,13 +727,13 @@ public class FirstPdf extends FillHilton{
 	                 	if (cfilled==1)
 	                 		form.setField("claim filed_ledger", "y");
 	                 	form.setField("claim filed_ledger", "n");
-	                 	/*String [] states = stamper.getAcroFields().getAppearanceStates("attorney involved"); 
+	                 	String [] states = stamper.getAcroFields().getAppearanceStates("attorney involved"); 
 	              		System.out.println(Arrays.toString(states)); 
-	              		*/
+	              		
 	                 }   
 	               //stamper.setFormFlattening(true);
 	                 form.setGenerateAppearances(true);
-                     stamper.close();
+                //     stamper.close();
                    
             } 
             
@@ -775,14 +788,14 @@ public class FirstPdf extends FillHilton{
 		  try {
 	            Statement stm = null;
 	            stm = connection.createStatement();//creating a instance for the database query
-	            PdfReader reader;
+	            /*PdfReader reader;
 	            PdfStamper stamper;
-	            ResultSet rs = null;
+	            */ResultSet rs = null;
 	            rs = stm.executeQuery("SELECT * FROM Sec7 ORDER BY Sec7ID DESC LIMIT 1");
 	            while ( rs.next() ) {
-	            	 reader = new PdfReader("D:/Eclipse Java/fill6.pdf");//reading the existing pdf
+	            /*	 reader = new PdfReader("D:/Eclipse Java/fill6.pdf");//reading the existing pdf
 	            	 stamper = new PdfStamper(reader, new FileOutputStream(Result6));
-	                 AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
+	            */     AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
 	                 String  attname,stateio,addio,dateoi,citoi,state,zipoi,phone,sign,todaydate;
 	                 int arerep;
 	                 arerep = rs.getInt("AreRep");
@@ -812,14 +825,14 @@ public class FirstPdf extends FillHilton{
 	                	 form.setField("attorney_ledger", "y");
 	                 form.setField("attorney_ledger", "n");
 	                 System.out.println("attorney name"+ attname);
-	                 /*String [] states = stamper.getAcroFields().getAppearanceStates("musculoskeletalbroken"); 
+	                 String [] states = stamper.getAcroFields().getAppearanceStates("musculoskeletalbroken"); 
               		System.out.println(Arrays.toString(states)); 
               	
               		String[] a = form.getAppearanceStates("musculoskeletalbroken");
               		System.out.println(a);
-              	*/
+              	
 	                 form.setGenerateAppearances(true);
-                     stamper.close();
+                    stamper.close();
                    
             } 
             
@@ -841,6 +854,5 @@ public class FirstPdf extends FillHilton{
 
 	
 
-	
-}
 
+}

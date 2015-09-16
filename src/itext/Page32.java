@@ -1,4 +1,4 @@
-package itext.sample;
+package itext;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,9 +13,18 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 
 public class Page32 {
-	private static final String Result1 = "D:/Eclipse Java/Page32.pdf";
-
+	private static final String Result = "D:/Eclipse Java/fill5.pdf";
+	static PdfReader reader;
+	static PdfStamper stamper;
 	public static void page32(){
+		try{
+			reader = new PdfReader("D:/Eclipse Java/fill4.pdf");
+			stamper = new PdfStamper(reader, new FileOutputStream(Result));
+		} catch (IOException | DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		
 		try {
 
             Class.forName("com.mysql.jdbc.Driver");
@@ -48,14 +57,12 @@ public class Page32 {
         try {
             Statement stm = null;
             stm = connection.createStatement();//creating a instance for the database query
-            PdfReader reader;
-            PdfStamper stamper;
             ResultSet rs = null;
             rs = stm.executeQuery("SELECT * FROM Page32 ORDER BY Page32ID DESC LIMIT 1");
             while ( rs.next() ) {
-            	 reader = new PdfReader("D:/Eclipse Java/Page20.pdf");//reading the existing pdf
+           /* 	 reader = new PdfReader("D:/Eclipse Java/Page20.pdf");//reading the existing pdf
             	 stamper = new PdfStamper(reader, new FileOutputStream(Result1));
-                 AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
+           */      AcroFields form = stamper.getAcroFields(); // using acro fields to fill out the pdf
                  String  dinjury,descr,aname,address,pnumber,releasesig,pname,tdate;
                  int result,checks,attorney;
                  descr = rs.getString("Descr");
@@ -80,7 +87,6 @@ public class Page32 {
                     form.setField("Date of Injury",dinjury);
                     
                  	                 	/*Set<String> fldNames = form.getFields().keySet();
-
                  	for (String fldName : fldNames) {
                  	  System.out.println( fldName + ": " + form.getField( fldName ) );
                  	}
